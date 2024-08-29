@@ -1,0 +1,48 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/go:1.22",
+	"features": {
+		"ghcr.io/devcontainers/features/sshd:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/github-cli": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.11"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go"
+			],
+			"settings": {
+				"go.toolsManagement.checkForUpdates": "local",
+				"go.useLanguageServer": true,
+				"go.gopath": "/go"
+			}
+		}
+	},
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
+	// use 'forwardPorts' to make a list of ports inside the container available locally
+	"forwardPorts": [
+		45132,
+		3000,
+		4000,
+		35142
+	],
+	"appPort": [
+		45132,
+		3000,
+		4000,
+		35142
+	],
+	// start's the skyramp server that runs command on codespace
+	"postStartCommand": "mkdir -p /etc/skyramp && curl -o /etc/skyramp/start.sh https://raw.githubusercontent.com/letsramp/Skyramp-for-Github-Copilot/main/scripts/start.sh && chmod +x /etc/skyramp/start.sh && /etc/skyramp/start.sh",
+	"remoteUser": "root"
+}
